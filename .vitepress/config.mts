@@ -1,14 +1,16 @@
 import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
+declare const process: { env?: Record<string, string | undefined> } | undefined
+
 export default withMermaid(defineConfig({
   title: 'AEM Developer Notes',
   description: 'AEM 6.5 On-Premise — Technical notes for backend developers translated from Luca Nerlich Blog',
   lang: 'vi',
 
   // GitHub Pages (project page) serves under "/<repo>/".
-  // Keep "/" for local dev, switch when building in GitHub Actions.
-  base: process.env.GITHUB_ACTIONS ? '/aem-note/' : '/',
+  // We let the workflow inject it (so it works even if repo is renamed/forked).
+  base: process?.env?.VITEPRESS_BASE ?? '/',
 
   lastUpdated: true,
 
