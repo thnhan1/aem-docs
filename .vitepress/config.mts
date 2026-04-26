@@ -6,7 +6,9 @@ export default withMermaid(defineConfig({
   description: 'AEM 6.5 On-Premise — Technical notes for backend developers translated from Luca Nerlich Blog',
   lang: 'vi',
 
-  base: '/',
+  // GitHub Pages (project page) serves under "/<repo>/".
+  // Keep "/" for local dev, switch when building in GitHub Actions.
+  base: process.env.GITHUB_ACTIONS ? '/aem-note/' : '/',
 
   lastUpdated: true,
 
@@ -40,6 +42,7 @@ export default withMermaid(defineConfig({
           { text: 'HTL Templates', link: '/contents/foundation/htl-templates' },
           { text: 'Component Dialogs', link: '/contents/foundation/component-dialogs' },
           { text: 'Sling Model', link: '/contents/foundation/sling-model' },
+          { text: 'Templates & Policies', link: '/contents/foundation/templates-and-policies' },
         ],
       },
       {
