@@ -2,7 +2,7 @@
 
 ## Cấu trúc thư mục
 
-```
+```text [Folder structure]
 /
 ├── index.md                        ← Homepage
 ├── guide.md                        ← File này
@@ -22,7 +22,7 @@
 
 Đặt file vào thư mục phù hợp với chủ đề:
 
-```
+```text [Example paths]
 contents/backend/sling-models.md
 contents/content-and-data/dam-operations.md
 contents/tools/migration-scripts.md
@@ -32,7 +32,7 @@ contents/tools/migration-scripts.md
 
 Mở `.vitepress/config.mts`, tìm đúng section trong `sidebar` và thêm item:
 
-```ts
+```ts [.vitepress/config.mts (sidebar)]
 {
   text: 'Backend',
   items: [
@@ -51,7 +51,7 @@ Mở `.vitepress/config.mts`, tìm đúng section trong `sidebar` và thêm item
 
 Nếu muốn xuất hiện trên thanh nav trên cùng, sửa phần `nav` trong config:
 
-```ts
+```ts [.vitepress/config.mts (nav)]
 nav: [
   { text: 'Home',       link: '/' },
   { text: 'Backend',    link: '/contents/backend/osgi-configuration' },
@@ -77,7 +77,7 @@ contents/infrastructure/ssl-setup.md
 ```
 
 **3. Thêm sidebar section trong `config.mts`:**
-```ts
+```ts [.vitepress/config.mts (new section)]
 {
   text: 'Infrastructure',
   collapsed: false,

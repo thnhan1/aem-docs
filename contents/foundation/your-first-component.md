@@ -2,7 +2,7 @@
 tags: [project, active]
 created: 2026-04-26
 modified: 2026-04-26
-title: Your First Component
+title: Component đầu tiên của m
 aliases: ["your-first-component"]
 ---
 
@@ -22,7 +22,7 @@ Mọi AEM Component hoàn chỉnh thường được cấu thành từ ba thành
 | **HTL Template** | `.html` | Chịu trách nhiệm render mã HTML dựa trên dữ liệu từ Model cung cấp. |
 | **Sling Model** | `.java` | Đọc dữ liệu (content) từ JCR, xử lý logic và cung cấp dữ liệu an toàn cho Template. |
 
-```mermaid
+```mermaid [Component triad]
 graph TD
     A["AEM Component"] --> B["Dialog<br/>_cq_dialog/.content.xml"]
     A --> C["HTL Template<br/>hello.html"]
@@ -46,7 +46,7 @@ Mã nguồn của một Component được chia làm hai khu vực (module) riê
 
 **Phần UI (Nằm trong module `ui.apps`):**
 
-```text
+```text [ui.apps structure]
 ui.apps/src/main/content/jcr_root/apps/mysite/components/
 └── hello/
     ├── .content.xml        # Component definition (định nghĩa cq:Component)
@@ -57,7 +57,7 @@ ui.apps/src/main/content/jcr_root/apps/mysite/components/
 
 **Phần Backend (Nằm trong module `core`):**
 
-```text
+```text [core structure]
 core/src/main/java/com/mysite/core/models/
 └── HelloModel.java         # Sling Model
 ```
@@ -70,7 +70,7 @@ core/src/main/java/com/mysite/core/models/
 
 File `.content.xml` ở thư mục gốc của component định nghĩa node `cq:Component`:
 
-```xml
+```xml [.content.xml]
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Component"
@@ -90,7 +90,7 @@ File `.content.xml` ở thư mục gốc của component định nghĩa node `cq
 
 HTL (HTML Template Language) chịu trách nhiệm render HTML. Tạo file `hello.html`:
 
-```html
+```html [hello.html]
 <div class="cmp-hello" data-sly-use.model="com.mysite.core.models.HelloModel">
     <h2 class="cmp-hello__title">${model.greeting}</h2>
     <p class="cmp-hello__message">${model.message}</p>
@@ -106,7 +106,7 @@ HTL (HTML Template Language) chịu trách nhiệm render HTML. Tạo file `hell
 
 Sling Model đọc giá trị từ JCR node và chuẩn bị data cho HTL:
 
-```java
+```java [HelloModel.java]
 package com.mysite.core.models;
 
 import org.apache.sling.api.resource.Resource;
