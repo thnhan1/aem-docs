@@ -24,7 +24,7 @@
 
 :root {
     --vp-font-family-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
-    --vp-font-family-base: 'Geist', sans-serif;
+    --vp-font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
 
     /* Brand color (Vue green) */
     --vp-c-brand-1: #42b883;
