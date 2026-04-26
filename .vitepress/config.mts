@@ -46,6 +46,7 @@ export default withMermaid(defineConfig({
           { text: 'Sling Model', link: '/contents/foundation/sling-model' },
           { text: 'Templates & Policies', link: '/contents/foundation/templates-and-policies' },
           { text: 'Client Libraries', link: '/contents/foundation/client-libraries' },
+          { text: 'Building Pages', link: '/contents/foundation/building-pages' },
         ],
       },
       {
@@ -63,6 +64,7 @@ export default withMermaid(defineConfig({
           { text: 'Node Operations', link: '/contents/content-and-data/node-operation' },
           { text: 'Query Builder Notes', link: '/contents/content-and-data/2.query-builder-note' },
           { text: 'Content Fragments', link: '/contents/content-and-data/content-fragment' },
+          { text: 'Content Fragments & GraphQL', link: '/contents/content-and-data/content-fragments-and-graphql' },
           { text: 'Headless GraphQL', link: '/contents/content-and-data/graphql' },
           { text: 'Replication & Activation', link: '/contents/content-and-data/replication-activation' },
           { text: 'Multi-Site Manager (MSM)', link: '/contents/content-and-data/multi-site-manager-msm' },
