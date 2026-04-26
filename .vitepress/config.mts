@@ -47,6 +47,7 @@ export default withMermaid(defineConfig({
           { text: 'Templates & Policies', link: '/contents/foundation/templates-and-policies' },
           { text: 'Client Libraries', link: '/contents/foundation/client-libraries' },
           { text: 'Building Pages', link: '/contents/foundation/building-pages' },
+          { text: 'Content Fragment', link: '/contents/foundation/content-fragments-and-graphql' },
         ],
       },
       {
