@@ -1,0 +1,94 @@
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('./fonts/JetBrainsMono-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('./fonts/JetBrainsMono-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('./fonts/JetBrainsMono-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+:root {
+    --vp-font-family-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    --vp-font-family-base: 'Geist', sans-serif;
+
+    /* Brand color (Vue green) */
+    --vp-c-brand-1: #42b883;
+    --vp-c-brand-2: #5ccf9a;
+    --vp-c-brand-3: #2f9b6b;
+    --vp-c-brand-soft: rgba(66, 184, 131, 0.16);
+
+    /* Home hero accents */
+    --vp-home-hero-name-color: transparent;
+    --vp-home-hero-name-background: linear-gradient(120deg, #42b883 30%, #35495e 100%);
+    --vp-home-hero-image-background-image: radial-gradient(circle at 50% 50%, rgba(66, 184, 131, 0.30) 0%, rgba(53, 73, 94, 0.14) 42%, transparent 72%);
+    --vp-home-hero-image-filter: blur(44px);
+}
+
+.dark:root {
+    --vp-c-brand-1: #42d392;
+    --vp-c-brand-2: #5ae0a6;
+    --vp-c-brand-3: #34b37e;
+    --vp-c-brand-soft: rgba(66, 211, 146, 0.16);
+
+    --vp-home-hero-name-background: linear-gradient(120deg, #42d392 30%, #35495e 100%);
+    --vp-home-hero-image-background-image: radial-gradient(circle at 50% 50%, rgba(66, 211, 146, 0.26) 0%, rgba(53, 73, 94, 0.16) 42%, transparent 72%);
+}
+
+/* inline code */
+:not(pre) > code {
+    font-family: var(--vp-font-family-mono) !important;
+    color: var(--vp-c-brand-1);
+    background-color: var(--vp-c-brand-soft);
+    border-radius: 6px;
+    padding: 0.15em 0.35em;
+}
+
+/* code blocks — Shiki wraps inside pre.vp-code > code > span.line > span */
+div[class*='language-'] pre,
+div[class*='language-'] pre code,
+div[class*='language-'] pre code .line,
+div[class*='language-'] pre code .line span {
+    font-family: var(--vp-font-family-mono) !important;
+}
+
+/* Mermaid diagrams: prevent long labels from being clipped */
+.vp-doc .mermaid {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem 0;
+}
+
+.vp-doc .mermaid svg {
+    max-width: 100%;
+    height: auto;
+    /* Some Mermaid renderers can clip text when overflow is hidden upstream */
+    overflow: visible;
+}
+
+/* Fix clipped multi-line labels (foreignObject-based HTML labels) */
+.vp-doc .mermaid foreignObject {
+    overflow: visible;
+}
+
+.vp-doc .mermaid .label,
+.vp-doc .mermaid .label-container,
+.vp-doc .mermaid .nodeLabel {
+    overflow: visible;
+    line-height: 1.25;
+}
