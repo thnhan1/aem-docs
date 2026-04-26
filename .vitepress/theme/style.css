@@ -92,3 +92,18 @@ div[class*='language-'] pre code .line span {
     overflow: visible;
     line-height: 1.25;
 }
+
+/* "On this page" (outline / ToC): allow long items to wrap instead of clipping */
+.VPDocAsideOutline .outline-link,
+.VPDocAsideOutline .outline-link > a {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+}
+
+.VPDocAsideOutline .outline-link {
+    padding: 2px 0;
+}
