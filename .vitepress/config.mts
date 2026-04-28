@@ -90,6 +90,7 @@ export default withMermaid(defineConfig({
         collapsed: false,
         items: [
           { text: 'Coral UI', link: '/contents/ui/coral-ui' },
+          { text: 'Overlays', link: '/contents/ui/overlays' },
           { text: 'Extending Responsive Grid', link: '/contents/ui/extending-responsive-grid' },
         ],
       },
