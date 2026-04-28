@@ -89,6 +89,8 @@ export default withMermaid(defineConfig({
         text: 'UI',
         collapsed: false,
         items: [
+          { text: 'Touch UI', link: '/contents/ui/touch-ui' },
+          { text: 'Touch UI (v2)', link: '/contents/ui/touch-ui-2' },
           { text: 'Coral UI', link: '/contents/ui/coral-ui' },
           { text: 'Overlays', link: '/contents/ui/overlays' },
           { text: 'Extending Responsive Grid', link: '/contents/ui/extending-responsive-grid' },
