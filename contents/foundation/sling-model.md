@@ -505,7 +505,7 @@ try (ResourceResolver rr = resolverFactory.getServiceResourceResolver(auth)) {
 
 ---
 
-## Liên kết nội bộ (aem-note)
+## Liên kết nội bộ (aem-docs)
 
 - [HTL Templates](./htl-templates)
 - [Component Dialogs](./component-dialogs)

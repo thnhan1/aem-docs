@@ -1,95 +1,152 @@
----
-tags: [project, active, aem, foundation, headless, graphql, content-fragments]
-created: 2026-04-26
-modified: 2026-04-26
-title: Content Fragments & GraphQL (Beginners Guide) — AEM 6.5
-aliases: [foundation-content-fragments-and-graphql]
----
+# Content Fragments & GraphQL
 
-
-## 0) TL;DR
-
-- CF = data trong DAM, không layout
-- GraphQL = API auto-generate từ CF Models
-- Prod = persisted query (GET) + cache (Dispatcher/CDN)
+Content Fragments là **nội dung có cấu trúc, channel-neutral** — text, image, data — được lưu độc lập với bất kỳ page layout nào. Kết hợp với GraphQL, chúng cho phép **headless content delivery** tới bất kỳ frontend nào: website, mobile app, digital signage, hoặc bất cứ thứ gì nói HTTP.
 
 ---
 
-## 1) CF vs Pages
+## 1. Content Fragments vs Pages
 
-| Item | Pages | Content Fragments |
+```mermaid
+flowchart TD
+    subgraph traditional ["Traditional - Pages"]
+        Page["Page"]
+        Layout["Layout + Components"]
+        Content1["Content"]
+        Page --> Layout
+        Layout --> Content1
+    end
+
+    subgraph headless ["Headless - Content Fragments"]
+        CF["Content Fragment"]
+        GraphQL["GraphQL API"]
+        Website["Website"]
+        App["Mobile App"]
+        Other["IoT / Signage"]
+        CF --> GraphQL
+        GraphQL --> Website
+        GraphQL --> App
+        GraphQL --> Other
+    end
+```
+
+| Tính năng | Pages | Content Fragments |
 |---|---|---|
-| Layout | template-based | none |
-| Output | HTML | JSON/data |
-| Authoring | component page editor | CF editor |
-| Delivery API | HTL + models / `.model.json` | GraphQL |
+| **Layout** | Gắn với AEM templates | Không có layout — thuần data |
+| **Delivery** | AEM render HTML | Client tự render (định dạng tùy ý) |
+| **Tái sử dụng** | 1 page = 1 URL | 1 fragment = nhiều consumers |
+| **Authoring** | Page editor với components | Content Fragment editor |
+| **API** | Sling model export (`.model.json`) | GraphQL API |
 
 ---
 
-## 2) Content Fragment Models (schema)
+## 2. Content Fragment Models
 
-Tools → General → **Content Fragment Models**:
+Content Fragment Model định nghĩa **cấu trúc** của fragment — giống database schema. Model được tạo trong configuration:
 
-- [ ] chọn `/conf/<site>`
-- [ ] Create model (vd `Article`)
-- [ ] add fields
+### Tạo model
 
-Field types (hay dùng):
+1. Vào **Tools** → **General** → **Content Fragment Models**
+2. Chọn configuration folder của bạn (ví dụ **My Site**)
+3. Click **Create**
+4. Đặt tên: **Article**
+5. Click **Open** để thêm fields
 
-- text: single/multi line
-- number/boolean/date
-- enumeration/tags
-- references: content ref (asset), fragment ref (CF khác)
-- tab placeholder
+### Các loại field
 
-Model `Article` (mẫu):
+| Loại field | Mô tả | Ví dụ |
+|---|---|---|
+| **Single line text** | Text ngắn | Title, tên tác giả |
+| **Multi line text** | Text dài có formatting | Body, description |
+| **Number** | Số nguyên hoặc thập phân | Rating, price |
+| **Boolean** | True/false | Featured, published |
+| **Date and Time** | Date/time picker | Publish date |
+| **Enumeration** | Danh sách options có sẵn | Category, status |
+| **Tags** | AEM tags | Topic tags |
+| **Content Reference** | Link tới asset/content | Featured image |
+| **Fragment Reference** | Link tới Content Fragment khác | Author fragment |
+| **JSON Object** | Arbitrary JSON | Metadata |
+| **Tab Placeholder** | Tab separator để tổ chức fields | Phân nhóm fields |
 
-- [ ] Title (required)
-- [ ] Slug (required)
-- [ ] Body (rich text)
-- [ ] Excerpt (plain)
-- [ ] Featured Image (content ref)
-- [ ] Publish Date
-- [ ] Featured (boolean default false)
-- [ ] Author (fragment ref)
-- [ ] Category (enum)
-- [ ] Tags
+### Ví dụ: Model `Article`
+
+| Field | Loại | Cấu hình |
+|---|---|---|
+| Title | Single line text | Required |
+| Slug | Single line text | Required, unique |
+| Body | Multi line text | Rich text, required |
+| Excerpt | Multi line text | Plain text, tối đa 300 chars |
+| Featured Image | Content Reference | Asset reference |
+| Publish Date | Date and Time | Date only |
+| Featured | Boolean | Default: false |
+| Author | Fragment Reference | References Author model |
+| Category | Enumeration | tech, business, design |
+| Tags | Tags | — |
+
+### Ví dụ: Model `Author`
+
+Tạo một model **Author** riêng biệt:
+
+| Field | Loại |
+|---|---|
+| Name | Single line text (required) |
+| Bio | Multi line text |
+| Avatar | Content Reference |
+| Email | Single line text |
 
 ---
 
-## 3) Create Content Fragments (Assets)
+## 3. Tạo Content Fragments
 
-Assets → Files → folder (vd `/content/dam/<site>/articles`)
+### Qua Assets Console
 
-- [ ] Create → Content Fragment
-- [ ] chọn model (Article)
-- [ ] fill fields
+1. Vào **Assets** → **Files**
+2. Navigate tới content folder (ví dụ `/content/dam/mysite/articles`)
+3. Click **Create** → **Content Fragment**
+4. Chọn model **Article**
+5. Nhập tên và điền fields
+6. Click **Create**
 
-Variations:
+### Fragment Editor
 
-- Master
-- named variations (Summary/Mobile/…)
+Content Fragment editor hiển thị các field của model dưới dạng form:
+
+- **Single-line fields** → text input
+- **Multi-line fields** → rich text editor hoặc plain text area
+- **Fragment references** → picker để chọn fragment khác
+- **Tab placeholders** → tổ chức fields thành tabs
+
+### Variations
+
+Content Fragments hỗ trợ **variations** — các phiên bản thay thế của cùng một nội dung:
+
+- **Master** — phiên bản mặc định
+- **Named variations** — ví dụ: "Summary", "Mobile", "Newsletter"
+
+Mỗi variation có thể override một số fields cụ thể trong khi kế thừa phần còn lại từ Master.
 
 ---
 
-## 4) GraphQL API (essentials)
+## 4. GraphQL API
 
-Endpoint pattern (hay gặp local SDK):
+AEM **tự động sinh GraphQL API** từ Content Fragment Models. Không cần code — cài model xong là API sẵn sàng.
+
+### GraphQL Endpoint
+
+Endpoint theo từng configuration (không phải global duy nhất). Pattern thường gặp trên local SDK:
 
 ```text
 http://localhost:4502/content/_cq_graphql/<configuration>/endpoint.json
 ```
 
-Field mapping:
+Thay `<configuration>` bằng tên configuration của site (ví dụ `mysite`). Dùng **GraphiQL IDE** để khám phá schema và test query trong quá trình phát triển.
 
-- model field label → GraphQL **camelCase**
-- case-sensitive → check schema explorer
+### Field name mapping
 
----
+GraphQL field names được derive từ tên field trong CF Model. AEM convert sang **camelCase** — ví dụ field label "Publish Date" trở thành `publishDate` trong GraphQL. Field names **case-sensitive** — dùng GraphiQL schema explorer để verify nếu query trả về `null` bất ngờ.
 
-## 5) Query templates
+### Basic queries
 
-List:
+**List tất cả articles:**
 
 ```graphql
 {
@@ -107,21 +164,29 @@ List:
 }
 ```
 
-By path:
+**Lấy article theo path:**
 
 ```graphql
 {
-  articleByPath(_path: "/content/dam/<site>/articles/getting-started") {
+  articleByPath(_path: "/content/dam/mysite/articles/getting-started") {
     item {
       title
-      body { html plaintext }
-      author { name bio }
+      slug
+      body {
+        html
+        plaintext
+      }
+      publishDate
+      author {
+        name
+        bio
+      }
     }
   }
 }
 ```
 
-Filter:
+### Filtering
 
 ```graphql
 {
@@ -131,52 +196,183 @@ Filter:
       featured: { _expressions: [{ value: true, _operator: EQUALS }] }
     }
   ) {
-    items { title publishDate }
+    items {
+      title
+      excerpt
+      publishDate
+    }
   }
 }
 ```
 
-Sort/paginate:
+### Sorting và Pagination
 
 ```graphql
 {
-  articleList(sort: "publishDate DESC", limit: 10, offset: 0) {
-    items { title publishDate }
+  articleList(
+    sort: "publishDate DESC"
+    limit: 10
+    offset: 0
+  ) {
+    items {
+      title
+      publishDate
+    }
+  }
+}
+```
+
+### Rich text fields
+
+Multi-line text field với rich text có thể trả về nhiều định dạng:
+
+```graphql
+{
+  articleByPath(_path: "/content/dam/mysite/articles/example") {
+    item {
+      body {
+        html        # Rendered HTML
+        plaintext   # Plain text (stripped)
+        json        # Structured JSON
+      }
+    }
+  }
+}
+```
+
+### Fragment references
+
+Khi Article references Author:
+
+```graphql
+{
+  articleList {
+    items {
+      title
+      author {
+        name
+        bio
+        avatar {
+          ... on ImageRef {
+            _path
+            width
+            height
+          }
+        }
+      }
+    }
   }
 }
 ```
 
 ---
 
-## 6) Persisted queries (prod default)
+## 5. Persisted Queries
 
-- ad-hoc: dev only
-- persisted: server-owned, cacheable (GET)
+Persisted queries là **pre-defined, cached, server-side queries**. Được khuyến nghị cho môi trường production.
 
-Execute:
+### Tạo persisted query
+
+Persisted queries nên được tạo và quản lý qua AEM GraphQL tooling, sau đó promote như code/config, rồi execute qua persisted query endpoint.
+
+### Execute persisted query
 
 ```bash
-curl -u admin:admin "http://localhost:4502/graphql/execute.json/<conf>/article-list"
-curl "http://localhost:4503/graphql/execute.json/<conf>/article-list"
+# Trên Author (local SDK) — cần authentication
+curl -u admin:admin http://localhost:4502/graphql/execute.json/mysite/article-list
+
+# Trên Publish — không cần authentication cho public queries
+curl http://localhost:4503/graphql/execute.json/mysite/article-list
+```
+
+### Ad-hoc vs Persisted queries
+
+| Tính năng | Ad-hoc queries | Persisted queries |
+|---|---|---|
+| **Caching** | Không cache được (Dispatcher) | Cached (GET request) |
+| **Security** | Client tự định nghĩa query | Server kiểm soát query |
+| **Performance** | Parse mỗi request | Parse 1 lần, execute nhiều lần |
+| **CDN** | Không cache được POST | CDN-cacheable GET |
+
+::: tip Best practice
+Luôn dùng **persisted queries** trong production. Ad-hoc queries chỉ dùng trong development và GraphiQL IDE.
+:::
+
+---
+
+## 6. Headless Content Delivery
+
+Luồng headless điển hình với AEM:
+
+```mermaid
+flowchart LR
+    Author["Content Author"]
+    AEM["AEM Author"]
+    Publish["AEM Publish"]
+    CDN["CDN / Dispatcher"]
+    Frontend["Frontend App"]
+
+    Author -->|"Edit fragments"| AEM
+    AEM -->|"Publish"| Publish
+    Publish -->|"Persisted queries"| CDN
+    CDN -->|"Cached JSON"| Frontend
+```
+
+Frontend consume GraphQL API:
+
+```javascript
+const response = await fetch(
+  "https://publish.mysite.com/graphql/execute.json/mysite/article-list"
+);
+const data = await response.json();
+const articles = data.data.articleList.items;
 ```
 
 ---
 
-## 7) Hardening checklist (headless)
+## 7. Content Fragments trên Pages (Hybrid)
 
-- [ ] Persisted queries only (Publish)
-- [ ] Cache: Dispatcher/CDN allow GET persisted query path
-- [ ] CORS allowlist
-- [ ] Limit/offset everywhere
-- [ ] Monitor latency + errors + cache hit ratio
+Content Fragments cũng có thể render trên AEM Pages bằng **Content Fragment Core Component**:
+
+1. Thêm component **Content Fragment** vào page
+2. Chọn fragment cần hiển thị
+3. Chọn fields cần render
+4. Tùy chọn: chọn variation
+
+Cách này bridge giữa traditional page-based và headless approach — hữu ích khi muốn dùng CF như data source nhưng vẫn cần AEM render HTML.
 
 ---
 
-## 8) CF on Pages (hybrid)
+## 8. Production Hardening Checklist
 
-Content Fragment Core Component:
+| Khu vực | Khuyến nghị |
+|---|---|
+| Đặt tên persisted query | Dùng tên ổn định, có versioning (ví dụ `article-list-v1`) |
+| Caching | Ưu tiên GET persisted queries behind Dispatcher/CDN |
+| Query complexity | Giữ response shape tối thiểu; tránh unbounded list fields |
+| Authorization | Chỉ expose endpoint/query cần thiết tại Publish |
+| CORS | Chỉ cho phép trusted frontend origins (config qua `com.adobe.granite.cors.impl.CORSPolicyImpl`) |
+| Schema evolution | Thêm fields theo backward-compatible; deprecate trước khi xóa |
+| Monitoring | Track query latency, cache hit ratio, error rates |
 
-- chọn fragment
-- chọn fields
-- chọn variation (optional)
+---
+
+## Tóm tắt
+
+- **Content Fragments** là nội dung có cấu trúc, channel-neutral
+- **Content Fragment Models** định nghĩa schema (field types, validation)
+- Tạo và edit fragments trong Assets console
+- **GraphQL API** được sinh tự động từ models — không cần code
+- Querying hỗ trợ: filtering, sorting, pagination, rich text formats, fragment references
+- **Persisted queries** cho production performance và caching
+- Headless delivery flow: Author → AEM → Publish → CDN → Frontend
+- CF cũng có thể dùng trên Pages với Content Fragment Core Component (hybrid approach)
+
+---
+
+## Tham khảo
+
+- [Content Fragments — Experience League](https://experienceleague.adobe.com/docs/experience-manager-65/content/assets/content-fragments/content-fragments.html)
+- [AEM GraphQL API — Experience League](https://experienceleague.adobe.com/docs/experience-manager-65/content/headless/graphql-api/content-fragments.html)
+- [Persisted queries — Experience League](https://experienceleague.adobe.com/docs/experience-manager-65/content/headless/graphql-api/persisted-queries.html)
 

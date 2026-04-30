@@ -2,35 +2,35 @@
 layout: home
 
 hero:
-  name: "AEM Developer Notes"
-  text: "AEM 6.5 On-Premise Note"
-  tagline: AEM 6.5 Note.
+  name: "AEM Developer Hub"
+  text: "AEM 6.5 On-Premise"
+  tagline: Ghi chú tự học về AEM 6.5.
   actions:
     - theme: brand
-      text: Query Builder
-      link: /contents/content-and-data/1.aem-query-builder
+      text: AEM Cơ bản
+      link: /contents/foundation/introduction-to-aem
     - theme: alt
       text: Backend
-      link: /contents/backend
+      link: /contents/backend/osgi-configuration
 
 features:
   - icon: 🔍
-    title: Content & Data
-    details: Query Builder, Node Operations, Content Fragments, Replication, Tags & Taxonomies.
+    title: Dữ Liệu & Nội Dung
+    details: Tìm kiếm sâu với Query Builder, quản lý Node, làm chủ Content Fragments, Replication và hệ thống Tags.
     link: /contents/content-and-data/1.aem-query-builder
 
   - icon: ⚙️
-    title: Backend
-    details: OSGi Configuration, Sling Servlets, Workflows, ACLs & Permissions.
+    title: Backend & OSGi
+    details: Tùy biến sâu với OSGi, Sling Servlets, Workflows và bảo mật với ACLs & Permissions.
     link: /contents/backend/osgi-configuration
 
   - icon: 🖥️
-    title: Tools
-    details: Tools for development AEM
-    link: /contents/tools/groovy-console
+    title: Tính Năng Nổi Bật
+    details: Khám phá các bài viết chuyên sâu về tính năng và kiến trúc AEM.
+    link: /contents/articles/aem-architecture
 
   - icon: 🎨
-    title: UI
-    details: Coral UI components, dialog configurations và Touch UI patterns.
+    title: Giao Diện & Trải Nghiệm
+    details: Thiết kế với Coral UI, tùy biến dialog và làm chủ Touch UI.
     link: /contents/ui/coral-ui
 ---

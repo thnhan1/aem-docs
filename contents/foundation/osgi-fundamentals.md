@@ -481,21 +481,19 @@ public class MyModelImpl implements MyModel {
 }
 ```
 
-```mermaid
 graph LR
-    subgraph Bundle core
-        SM[MyModelImpl<br/>@Model]
-        DS[GreetingServiceImpl<br/>@Component]
+    subgraph "Bundle core"
+        SM["MyModelImpl<br/>@Model"]
+        DS["GreetingServiceImpl<br/>@Component"]
     end
-    subgraph OSGi Runtime
-        SR[(Service Registry)]
-        SMF[Sling Models Framework]
+    subgraph "OSGi Runtime"
+        SR["(Service Registry)"]
+        SMF["Sling Models Framework"]
     end
     DS -->|đăng ký| SR
     SMF -->|khám phá model| SM
     SM -->|@OSGiService inject từ| SR
     SMF -->|là OSGi service trong| SR
-```
 
 Bundle `core/` vẫn cần metadata và dependencies đúng, vì model discovery và adaptation đều chạy bên trong OSGi runtime.
 
@@ -515,21 +513,21 @@ Bundle `core/` vẫn cần metadata và dependencies đúng, vì model discovery
 flowchart TD
     Start([Phát hiện vấn đề OSGi]) --> Q1{Bundle ở trạng thái nào?}
 
-    Q1 -->|Installed| A1[/system/console/bundles\nXem unresolved imports]
-    Q1 -->|Resolved nhưng Component unsatisfied| A2[/system/console/components\nXem missing references]
-    Q1 -->|Active nhưng sai behavior| A3[/system/console/configMgr\nKiểm tra configuration]
+    Q1 -->|Installed| A1["/system/console/bundles<br/>Xem unresolved imports"]
+    Q1 -->|Resolved nhưng Component unsatisfied| A2["/system/console/components<br/>Xem missing references"]
+    Q1 -->|Active nhưng sai behavior| A3["/system/console/configMgr<br/>Kiểm tra configuration"]
 
     A1 --> F1{Tìm thấy package thiếu?}
-    F1 -->|Có| Fix1[Thêm dependency vào pom.xml\nhoặc embed thư viện vào bundle]
-    F1 -->|Không| Fix1b[Kiểm tra version conflict\ntrong Import-Package]
+    F1 -->|Có| Fix1["Thêm dependency vào pom.xml<br/>hoặc embed thư viện vào bundle"]
+    F1 -->|Không| Fix1b["Kiểm tra version conflict<br/>trong Import-Package"]
 
     A2 --> F2{Service reference thiếu?}
-    F2 -->|Có| Fix2[Đăng ký missing service\nhoặc đổi cardinality thành OPTIONAL]
-    F2 -->|Không| Fix2b[Kiểm tra service.ranking\nvà target filter]
+    F2 -->|Có| Fix2["Đăng ký missing service<br/>hoặc đổi cardinality thành OPTIONAL"]
+    F2 -->|Không| Fix2b["Kiểm tra service.ranking<br/>và target filter"]
 
     A3 --> F3{PID đúng chưa?}
-    F3 -->|Chưa| Fix3[Sửa tên file .cfg.json\nkhớp với class FQN]
-    F3 -->|Đúng rồi| Fix3b[Kiểm tra run mode folder\nvà giá trị property]
+    F3 -->|Chưa| Fix3["Sửa tên file .cfg.json<br/>khớp với class FQN"]
+    F3 -->|Đúng rồi| Fix3b["Kiểm tra run mode folder<br/>và giá trị property"]
 
     Fix1 --> End([Resolved ✅])
     Fix1b --> End
@@ -621,35 +619,33 @@ public class ResourceChangeHandler implements EventHandler {
 
 ### Tóm tắt
 
-```mermaid
-mindmap
-  root((OSGi trong AEM))
-    Bundle
-      JAR với MANIFEST.MF đặc biệt
-      Lifecycle: Installed → Resolved → Active
-      Debug tại /system/console/bundles
-    Service
-      Java interface + implementation
-      Đăng ký bằng @Component
-      Inject bằng @Reference / @OSGiService
-      Ranking để override
-    Configuration
-      @ObjectClassDefinition / @AttributeDefinition
-      File .cfg.json trong ui.config
-      Run modes: author, publish, dev, stage, prod
-      Cộng dồn từ config/ → config.author/ v.v.
-    Lifecycle Annotations
-      "@Activate — component khởi động"
-      "@Modified — config thay đổi runtime"
-      "@Deactivate — component dừng"
-    Web Console
-      /system/console/bundles
-      /system/console/components
-      /system/console/configMgr
-    Patterns
-      Service interface + impl separation
-      Scheduler — Runnable + cron expression
-      Event Handler — react to OSGi events
+```text
+OSGi trong AEM
+├── Bundle
+│   ├── JAR với MANIFEST.MF đặc biệt
+│   ├── Lifecycle: Installed → Resolved → Active
+│   └── Debug tại /system/console/bundles
+├── Service
+│   ├── Java interface + implementation
+│   ├── Đăng ký bằng @Component
+│   ├── Inject bằng @Reference / @OSGiService
+│   └── Ranking để override
+├── Configuration
+│   ├── @ObjectClassDefinition / @AttributeDefinition
+│   ├── File .cfg.json trong ui.config
+│   └── Run modes: author, publish, dev, stage, prod (cộng dồn)
+├── Lifecycle Annotations
+│   ├── @Activate — component khởi động
+│   ├── @Modified — config thay đổi runtime
+│   └── @Deactivate — component dừng
+├── Web Console
+│   ├── /system/console/bundles
+│   ├── /system/console/components
+│   └── /system/console/configMgr
+└── Patterns
+    ├── Service interface + impl separation
+    ├── Scheduler — Runnable + cron expression
+    └── Event Handler — react to OSGi events
 ```
 
 Những gì bạn đã học:

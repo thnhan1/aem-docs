@@ -180,9 +180,6 @@ flowchart TD
     style G fill:#43a047,stroke:#1b5e20,stroke-width:2px,color:#ffffff
     style H fill:#1e88e5,stroke:#0d47a1,stroke-width:2px,color:#ffffff
     style I fill:#e53935,stroke:#b71c1c,stroke-width:2px,color:#ffffff
-
-    %% Link styling
-    linkStyle default stroke:#90a4ae,stroke-width:1px
 ```
 
 Thuộc tính `sling:resourceType` trên node trỏ đến định nghĩa của một component. Sling sẽ tìm kiếm script render theo thứ tự sau:

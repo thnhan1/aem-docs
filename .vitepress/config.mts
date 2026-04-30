@@ -1,11 +1,14 @@
-import { defineConfig } from 'vitepress'
+import { defineConfigWithTheme } from 'vitepress'
+import type { ThemeConfig } from 'vitepress-carbon'
+import baseConfig from 'vitepress-carbon/config'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
 declare const process: { env?: Record<string, string | undefined> } | undefined
 
-export default withMermaid(defineConfig({
+export default withMermaid(defineConfigWithTheme<ThemeConfig>({
+  extends: baseConfig,
   title: 'AEM Developer Notes',
-  description: 'AEM 6.5 On-Premise — Technical notes for backend developers translated from Luca Nerlich Blog',
+  description: 'AEM 6.5 On-Premise — Technical notes for backend developers',
   lang: 'vi',
 
   // GitHub Pages (project page) serves under "/<repo>/".
@@ -24,17 +27,17 @@ export default withMermaid(defineConfig({
 
     nav: [
       { text: 'Home', link: '/' },
-      {text: 'Foundation', link: '/contents/foundation/introduction-to-aem'},
-      { text: 'Content & Data', link: '/contents/content-and-data/1.aem-query-builder' },
+      { text: 'Fundamental', link: '/contents/foundation/introduction-to-aem' },
+      { text: 'Articles', link: '/contents/articles/aem-architecture' },
       { text: 'Backend', link: '/contents/backend/osgi-configuration' },
-      { text: 'Groovy Console', link: '/contents/tools/groovy-console' },
+      { text: 'Content & Data', link: '/contents/content-and-data/1.aem-query-builder' },
       { text: 'UI', link: '/contents/ui/coral-ui' },
       { text: 'Guide', link: '/guide' },
     ],
 
     sidebar: [
       {
-        text: 'Foundation',
+        text: 'Fundamental',
         collapsed: false,
         items: [
           { text: 'Introduction to AEM', link: '/contents/foundation/introduction-to-aem' },
@@ -47,16 +50,21 @@ export default withMermaid(defineConfig({
           { text: 'Templates & Policies', link: '/contents/foundation/templates-and-policies' },
           { text: 'Client Libraries', link: '/contents/foundation/client-libraries' },
           { text: 'Building Pages', link: '/contents/foundation/building-pages' },
-          { text: 'Content Fragment', link: '/contents/foundation/content-fragments-and-graphql' },
+          { text: 'Content Fragment & GraphQL', link: '/contents/foundation/content-fragments-and-graphql' },
         ],
       },
       {
-        text: 'Tools',
-        collapsed: false,
+        text: 'Articles',
+        collapsed: true,
         items: [
-          { text: 'Groovy Console', link: '/contents/tools/groovy-console' },
+          { text: 'AEM Architecture', link: '/contents/articles/aem-architecture' },
+          { text: 'Touch UI Component Dialogs', link: '/contents/articles/component-dialogs' },
+          { text: 'HTL Templates (Sightly)', link: '/contents/articles/htl-templates' },
+          { text: 'Client Libraries', link: '/contents/articles/client-libraries' },
+          { text: 'Groovy Console', link: '/contents/articles/groovy-console' },
         ],
       },
+
       {
         text: 'Content & Data',
         collapsed: false,
@@ -97,6 +105,7 @@ export default withMermaid(defineConfig({
           { text: 'Custom Dialog Widgets', link: '/contents/ui/custom-dialog-widgets' },
           { text: 'Multi-Tenancy UI Frontend', link: '/contents/ui/multi-tenancy-ui-frontend' },
           { text: 'Extending Responsive Grid', link: '/contents/ui/extending-responsive-grid' },
+          { text: 'SPA Editor', link: '/contents/ui/spa-editor' },
         ],
       },
       {
@@ -104,6 +113,13 @@ export default withMermaid(defineConfig({
         collapsed: false,
         items: [
           { text: 'ACLs and Permissions', link: '/contents/infrastructure/acl-permissions' },
+        ],
+      },
+      {
+        text: 'Tools',
+        collapsed: false,
+        items: [
+          { text: 'Groovy Console', link: '/contents/tools/groovy-console' },
         ],
       },
       {
@@ -121,14 +137,16 @@ export default withMermaid(defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/thnhan1' },
-      { icon: {
-        svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Bluesky</title><path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/></svg>'
-      }, link: 'https://bsky.app/profile/huunhan.bsky.social' },
+      {
+        icon: {
+          svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Bluesky</title><path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/></svg>'
+        }, link: 'https://bsky.app/profile/huunhan.bsky.social'
+      },
     ],
 
     editLink: {
-      pattern: 'https://github.com/thnhan1/aem-note/edit/main/:path',
-      text: 'Edit this page on GitHub',
+      pattern: 'https://github.com/thnhan1/aem-docs/edit/main/:path',
+      text: 'Chỉnh sửa trang này trên GitHub',
     },
 
     footer: {
@@ -138,20 +156,20 @@ export default withMermaid(defineConfig({
 
     outline: {
       level: [2, 3],
-      label: 'On this page',
+      label: 'Mục lục',
     },
 
     docFooter: {
-      prev: 'Previous',
-      next: 'Next',
+      prev: 'Bài trước',
+      next: 'Tiếp theo',
     },
 
   },
 
   markdown: {
     theme: {
-      light: 'github-light',
-      dark: 'github-dark',
+      light: 'catppuccin-latte',
+      dark: 'dracula',
     },
     lineNumbers: true,
   },
@@ -160,6 +178,12 @@ export default withMermaid(defineConfig({
     theme: 'neutral',
     flowchart: {
       htmlLabels: true,
+    },
+  },
+
+  vite: {
+    optimizeDeps: {
+      include: ['dayjs', 'dayjs/plugin/relativeTime'],
     },
   },
 }))

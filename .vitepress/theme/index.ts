@@ -1,12 +1,12 @@
 import { h } from 'vue'
-import theme from 'vitepress/theme-without-fonts'
+import { VPCarbon } from 'vitepress-carbon'
 import BackToTop from './components/BackToTop.vue'
 import './style.css'
 
 export default {
-  extends: theme,
+  extends: VPCarbon,
   Layout() {
-    return h(theme.Layout, null, {
+    return h(VPCarbon.Layout, null, {
       'layout-bottom': () => h(BackToTop),
     })
   },

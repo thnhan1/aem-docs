@@ -22,16 +22,16 @@ Mọi AEM Component hoàn chỉnh thường được cấu thành từ ba thành
 | **HTL Template** | `.html` | Chịu trách nhiệm render mã HTML dựa trên dữ liệu từ Model cung cấp. |
 | **Sling Model** | `.java` | Đọc dữ liệu (content) từ JCR, xử lý logic và cung cấp dữ liệu an toàn cho Template. |
 
-```mermaid [Component triad]
+```mermaid
 graph TD
     A["AEM Component"] --> B["Dialog<br/>_cq_dialog/.content.xml"]
     A --> C["HTL Template<br/>hello.html"]
     A --> D["Sling Model<br/>HelloModel.java"]
     
-    B -->|Tác giả nhập & lưu dữ liệu| JCR[(JCR Node)]
-    D -->|Đọc properties| JCR
-    C -->|Sử dụng & gọi Getter| D
-    C -->|Render ra| Browser(("Trình duyệt"))
+    B -->|"Tác giả nhập & lưu dữ liệu"| JCR[("JCR Node")]
+    D -->|"Đọc properties"| JCR
+    C -->|"Sử dụng & gọi Getter"| D
+    C -->|"Render ra"| Browser(("Trình duyệt"))
     
     style B fill:#7cb87c,color:#fff
     style C fill:#4a90d9,color:#fff
@@ -247,26 +247,26 @@ Nếu component của bạn không hiển thị nội dung như kỳ vọng, hã
 
 ```mermaid
 flowchart TD
-    Start([Component không hiện text/lỗi?]) --> S1[1. Dialog Save Check]
-    S1 --> Q1{Mở lại Dialog,<br/>giá trị còn giữ nguyên?}
+    Start(["Component không hiện text/lỗi?"]) --> S1["1. Dialog Save Check"]
+    S1 --> Q1{"Mở lại Dialog,<br/>giá trị còn giữ nguyên?"}
     
-    Q1 -->|Không| Fix1[Lỗi UI Dialog: Sai cấu trúc XML<br/>hoặc thiếu thuộc tính 'name']
-    Q1 -->|Có| S2[2. JCR Check]
+    Q1 -->|Không| Fix1["Lỗi UI Dialog: Sai cấu trúc XML<br/>hoặc thiếu thuộc tính 'name'"]
+    Q1 -->|Có| S2["2. JCR Check"]
     
-    S2 --> Q2{CRXDE Lite có lưu<br/>property ở Node component?}
+    S2 --> Q2{"CRXDE Lite có lưu<br/>property ở Node component?"}
     
-    Q2 -->|Không| Fix2[Lỗi lưu trữ: Kiểm tra quyền write<br/>hoặc cấu trúc parent node]
-    Q2 -->|Có| S3[3. Sling Model Check]
+    Q2 -->|Không| Fix2["Lỗi lưu trữ: Kiểm tra quyền write<br/>hoặc cấu trúc parent node"]
+    Q2 -->|Có| S3["3. Sling Model Check"]
     
-    S3 --> Q3{Model có inject<br/>được data không?}
+    S3 --> Q3{"Model có inject<br/>được data không?"}
     
-    Q3 -->|Không| Fix3[Lỗi Model: Sai @ValueMapValue,<br/>lỗi getter, quên DefaultInjectionStrategy]
-    Q3 -->|Có| S4[4. HTL Check]
+    Q3 -->|Không| Fix3["Lỗi Model: Sai @ValueMapValue,<br/>lỗi getter, quên DefaultInjectionStrategy"]
+    Q3 -->|Có| S4["4. HTL Check"]
     
-    S4 --> Q4{HTL render rỗng?}
+    S4 --> Q4{"HTL render rỗng?"}
     
-    Q4 -->|Có| Fix4[Lỗi HTL: Sai đường dẫn data-sly-use,<br/>gọi sai tên biến ${model.abc}]
-    Q4 -->|Không| End([Mọi thứ hoạt động tốt ✅])
+    Q4 -->|Có| Fix4["Lỗi HTL: Sai đường dẫn data-sly-use,<br/>gọi sai tên biến model.abc"]
+    Q4 -->|Không| End(["Mọi thứ hoạt động tốt ✅"])
     
     style Fix1 fill:#e74c3c,color:#fff
     style Fix2 fill:#e74c3c,color:#fff

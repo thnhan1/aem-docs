@@ -1,52 +1,82 @@
 @font-face {
-    font-family: 'JetBrains Mono';
-    src: url('./fonts/JetBrainsMono-Regular.ttf') format('truetype');
+    font-family: 'D2Coding';
+    src: url('./fonts/D2Coding-Ver1.3.2-20180524.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'JetBrains Mono';
-    src: url('./fonts/JetBrainsMono-Bold.ttf') format('truetype');
+    font-family: 'D2Coding';
+    src: url('./fonts/D2CodingBold-Ver1.3.2-20180524.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
-@font-face {
-    font-family: 'JetBrains Mono';
-    src: url('./fonts/JetBrainsMono-Italic.ttf') format('truetype');
-    font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-}
-
 :root {
-    --vp-font-family-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
-    --vp-font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    /* ==========================================
+     * GLOBAL CONFIG — chỉnh ở đây để thay đổi toàn site
+     * ========================================== */
 
-    /* Brand color (Vue green) */
-    --vp-c-brand-1: #42b883;
-    --vp-c-brand-2: #5ccf9a;
-    --vp-c-brand-3: #2f9b6b;
-    --vp-c-brand-soft: rgba(66, 184, 131, 0.16);
+    /* Typography */
+    --site-font-size-content:      17px;    /* font size cho nội dung bài viết */
+    --site-font-size-code:         1.0rem;  /* font size cho inline code và code block */
+    --site-code-border-radius:     6px;
+    --site-code-padding:           0.15em 0.35em;
+
+    /* Layout */
+    --site-layout-max-width:       1600px;  /* max width toàn trang */
+    --site-aside-max-width:        288px;   /* độ rộng ToC bên phải */
+    --site-content-padding-left:   24px;    /* khoảng cách trái của vùng content */
+
+    /* Scrollbar */
+    --site-scrollbar-size:         6px;
+
+    /* ==========================================
+     * VitePress overrides
+     * ========================================== */
+    --vp-font-family-mono: 'D2Coding', 'SF Mono', 'Monaco', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    --vp-font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    --vp-layout-max-width: var(--site-layout-max-width);
+
+    /* Brand color — light mode: darker pink for readable contrast on white */
+    --vp-c-brand-1: #b5218a;
+    --vp-c-brand-2: #c9369d;
+    --vp-c-brand-3: #890f68;
+    --vp-c-brand-soft: rgba(181, 33, 138, 0.10);
 
     /* Home hero accents */
     --vp-home-hero-name-color: transparent;
-    --vp-home-hero-name-background: linear-gradient(120deg, #42b883 30%, #35495e 100%);
-    --vp-home-hero-image-background-image: radial-gradient(circle at 50% 50%, rgba(66, 184, 131, 0.30) 0%, rgba(53, 73, 94, 0.14) 42%, transparent 72%);
+    --vp-home-hero-name-background: linear-gradient(120deg, #b5218a 30%, #7c3aed 100%);
+    --vp-home-hero-image-background-image: radial-gradient(circle at 50% 50%, rgba(181, 33, 138, 0.25) 0%, rgba(124, 58, 237, 0.12) 42%, transparent 72%);
     --vp-home-hero-image-filter: blur(44px);
 }
 
-.dark:root {
-    --vp-c-brand-1: #42d392;
-    --vp-c-brand-2: #5ae0a6;
-    --vp-c-brand-3: #34b37e;
-    --vp-c-brand-soft: rgba(66, 211, 146, 0.16);
+/* ===== Light mode heading fix =====
+   vitepress-carbon dùng gradient text (-webkit-background-clip:text) cho heading
+   trên nền sáng sẽ hiện background đen → reset về màu text thông thường */
+:root:not(.dark) .vp-doc h1,
+:root:not(.dark) .vp-doc h2,
+:root:not(.dark) .vp-doc h3,
+:root:not(.dark) .vp-doc h4,
+:root:not(.dark) .vp-doc h5,
+:root:not(.dark) .vp-doc h6 {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: unset !important;
+    background-clip: unset !important;
+    color: var(--vp-c-text-1) !important;
+}
 
-    --vp-home-hero-name-background: linear-gradient(120deg, #42d392 30%, #35495e 100%);
-    --vp-home-hero-image-background-image: radial-gradient(circle at 50% 50%, rgba(66, 211, 146, 0.26) 0%, rgba(53, 73, 94, 0.16) 42%, transparent 72%);
+.dark:root {
+    --vp-c-brand-1: #ff79c6;
+    --vp-c-brand-2: #ff92d0;
+    --vp-c-brand-3: #e05cb0;
+    --vp-c-brand-soft: rgba(255, 121, 198, 0.16);
+
+    --vp-home-hero-name-background: linear-gradient(120deg, #ff79c6 30%, #bd93f9 100%);
+    --vp-home-hero-image-background-image: radial-gradient(circle at 50% 50%, rgba(255, 121, 198, 0.26) 0%, rgba(189, 147, 249, 0.16) 42%, transparent 72%);
 }
 
 /* inline code */
@@ -54,8 +84,9 @@
     font-family: var(--vp-font-family-mono) !important;
     color: var(--vp-c-brand-1);
     background-color: var(--vp-c-brand-soft);
-    border-radius: 6px;
-    padding: 0.15em 0.35em;
+    border-radius: var(--site-code-border-radius);
+    padding: var(--site-code-padding);
+    font-size: var(--site-font-size-code);
 }
 
 /* code blocks — Shiki wraps inside pre.vp-code > code > span.line > span */
@@ -64,6 +95,13 @@ div[class*='language-'] pre code,
 div[class*='language-'] pre code .line,
 div[class*='language-'] pre code .line span {
     font-family: var(--vp-font-family-mono) !important;
+    font-size: var(--site-font-size-code);
+}
+
+/* line numbers */
+div[class*='language-'].line-numbers-mode .line-numbers-wrapper {
+    font-family: var(--vp-font-family-mono) !important;
+    font-size: var(--site-font-size-code);
 }
 
 /* Mermaid diagrams: prevent long labels from being clipped */
@@ -86,6 +124,34 @@ div[class*='language-'] pre code .line span {
     overflow: visible;
 }
 
+/* Increase font size for all content */
+.vp-doc {
+    font-size: var(--site-font-size-content);
+}
+
+/* Remove the hard max-width cap on the content column so it fills
+   the space between sidebar and aside instead of leaving a dead gap */
+.VPDoc .content {
+    max-width: none !important;
+}
+
+/* Tighten the left padding that creates the empty gap */
+@media (min-width: 960px) {
+    .VPDoc .content {
+        padding-left: var(--site-content-padding-left) !important;
+    }
+}
+
+/* Right aside (Table of Contents) — keep width natural, just ensure text wraps */
+.VPDoc .aside {
+    max-width: var(--site-aside-max-width) !important;
+}
+
+.VPDocAside {
+    width: 100% !important;
+    overflow: visible !important;
+}
+
 .vp-doc .mermaid .label,
 .vp-doc .mermaid .label-container,
 .vp-doc .mermaid .nodeLabel {
@@ -94,16 +160,48 @@ div[class*='language-'] pre code .line span {
 }
 
 /* "On this page" (outline / ToC): allow long items to wrap instead of clipping */
+.VPDocAsideOutline,
+.VPDocAsideOutline .content,
 .VPDocAsideOutline .outline-link,
-.VPDocAsideOutline .outline-link > a {
-    white-space: normal;
-    overflow: visible;
-    text-overflow: unset;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-    line-height: 1.35;
+.VPDocAsideOutline .outline-link > a,
+.VPDocAsideOutline a {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
 }
 
 .VPDocAsideOutline .outline-link {
     padding: 2px 0;
+    line-height: 1.45;
+}
+
+/* ===== Custom Scrollbar ===== */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--vp-c-brand-1) transparent;
+}
+
+::-webkit-scrollbar {
+    width: var(--site-scrollbar-size);
+    height: var(--site-scrollbar-size);
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--vp-c-divider);
+    border-radius: 9999px;
+    transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--vp-c-brand-1);
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
 }

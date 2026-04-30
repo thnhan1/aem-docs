@@ -1,7 +1,10 @@
 {
-  "name": "aem-note",
+  "name": "aem-docs",
   "version": "1.0.0",
   "description": "AEM 6.5 Notes",
+  "author": {
+    "name": "Tran Huu Nhan"
+  },
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
@@ -12,6 +15,7 @@
     "debug": "^4.4.3",
     "mermaid": "^11.14.0",
     "vitepress": "^1.6.4",
+    "vitepress-carbon": "^1.6.0",
     "vitepress-plugin-mermaid": "^2.0.17"
   }
 }

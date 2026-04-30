@@ -184,16 +184,16 @@ npm run docs:preview
 
 ### Lần đầu tiên
 
-1. Tạo repo trên GitHub, đặt tên `aem-note`
+1. Tạo repo trên GitHub, đặt tên `aem-docs`
 2. Nếu deploy vào **root domain** (ví dụ `username.github.io`) thì giữ `base: '/'` trong `.vitepress/config.mts`.
-   Nếu deploy vào **subpath** (ví dụ `username.github.io/aem-note/`) thì đặt `base: '/aem-note/'`.
+   Nếu deploy vào **subpath** (ví dụ `username.github.io/aem-docs/`) thì đặt `base: '/aem-docs/'`.
 3. Vào **Settings → Pages → Source** → chọn **GitHub Actions**
 4. Push lên nhánh `main`:
    ```bash
    git init
    git add .
    git commit -m "init"
-   git remote add origin https://github.com/YOUR_USERNAME/aem-note.git
+   git remote add origin https://github.com/YOUR_USERNAME/aem-docs.git
    git push -u origin main
    ```
 5. GitHub Actions tự build và deploy. URL tuỳ theo cấu hình Pages (root domain hoặc subpath).

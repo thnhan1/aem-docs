@@ -9,7 +9,13 @@ This is Vitepress documentation site in Vietnamese language. I need you to help 
 ## Writing Guidelines
 
 - Use clear and concise language
+- Add embed image in original docs to new docs. via image markdown embeded link.
 - Use active voice
 - This is document write for my personal reference, so it should be easy to understand and follow in advanced level.
 - Do not use deprecated methods or APIs.
 - After write content. Add it to navigation menu in config.mts file in user guide section.
+
+## Response rule
+
+- Follow writting guidelines
+- Do not response what you do if I not ask you to do that
