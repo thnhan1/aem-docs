@@ -119,13 +119,6 @@ export default withMermaid(defineConfigWithTheme<ThemeConfig>({
         ],
       },
       {
-        text: 'Tools',
-        collapsed: false,
-        items: [
-          { text: 'Groovy Console', link: '/contents/tools/groovy-console' },
-        ],
-      },
-      {
         text: 'Guide',
         collapsed: false,
         items: [
@@ -139,9 +132,30 @@ export default withMermaid(defineConfigWithTheme<ThemeConfig>({
       options: {
         appId: '7K4NJFO8DC',
         apiKey: '97cc8e5901c87ee268d6a03d3fc9775f',
-        indexName: 'thnhan1_github_io_7k4njfo8dc_pages',
+        indexName: 'AEM docs blog',
         searchParameters: {
           facetFilters: [],
+        },
+        locales: {
+          root: {
+            placeholder: 'Tìm kiếm tài liệu...',
+            translations: {
+              button: {
+                buttonText: 'Tìm kiếm',
+                buttonAriaLabel: 'Tìm kiếm',
+              },
+              modal: {
+                resetButtonTitle: 'Xóa từ khóa',
+                backButtonTitle: 'Quay lại',
+                noResultsText: 'Không có kết quả cho',
+                footer: {
+                  selectText: 'chọn',
+                  navigateText: 'di chuyển',
+                  closeText: 'đóng',
+                },
+              },
+            },
+          },
         },
       },
     },
