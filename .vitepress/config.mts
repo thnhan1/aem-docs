@@ -9,7 +9,6 @@ export default withMermaid(defineConfigWithTheme<ThemeConfig>({
   extends: baseConfig,
   title: 'AEM Developer Notes',
   description: 'AEM 6.5 On-Premise — Technical notes for backend developers',
-  lang: 'vi',
 
   // GitHub Pages (project page) serves under "/<repo>/".
   // We let the workflow inject it (so it works even if repo is renamed/forked).
@@ -141,25 +140,8 @@ export default withMermaid(defineConfigWithTheme<ThemeConfig>({
         appId: '7K4NJFO8DC',
         apiKey: '97cc8e5901c87ee268d6a03d3fc9775f',
         indexName: 'thnhan1_github_io_7k4njfo8dc_pages',
-        locales: {
-          root: {
-            placeholder: 'Tìm kiếm tài liệu',
-            translations: {
-              button: {
-                buttonText: 'Tìm kiếm',
-                buttonAriaLabel: 'Tìm kiếm',
-              },
-              modal: {
-                resetButtonTitle: 'Xóa từ khóa',
-                noResultsText: 'Không có kết quả',
-                footer: {
-                  selectText: 'chọn',
-                  navigateText: 'di chuyển',
-                  closeText: 'đóng',
-                },
-              },
-            },
-          },
+        searchParameters: {
+          facetFilters: [],
         },
       },
     },
