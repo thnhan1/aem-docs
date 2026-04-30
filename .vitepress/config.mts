@@ -17,6 +17,10 @@ export default withMermaid(defineConfigWithTheme<ThemeConfig>({
 
   lastUpdated: true,
 
+  head: [
+    ['meta', { name: 'algolia-site-verification', content: 'EE02DC2A95408B24' }],
+  ],
+
   ignoreDeadLinks: [
     // localhost AEM links trong các file note
     /^http:\/\/localhost/,
